@@ -1,5 +1,7 @@
 (() => {
     // sceneInfo는 각 scene에 대한 정보를 담고 있다.
+    let yOffset = 0; // window.pageYOffset 대신 쓸 변수
+
     const sceneInfo = [
         {
             // 0
@@ -47,7 +49,15 @@
         }
     }
 
+    function ScrollLoop() {
+
+    }
+
     window.addEventListener('resize', setLayout) // 화면 크기가 바뀌었을때를 기준으로 setLayout을 정의하기
+    window.addEventListener('scroll', () => {
+        yOffset = window.scrollY;
+        ScrollLoop()
+    })
 
     setLayout()
 
