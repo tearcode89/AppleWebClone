@@ -49,6 +49,18 @@
             sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight; // window.innerHeight는 브라우저 창의 높이
             sceneInfo[i].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`
         }
+
+        yOffset = window.scrollY;
+
+        let totalScrollHeight = 0;
+        for (let i = 0; i < sceneInfo.length; i++) {
+            totalScrollHeight += sceneInfo[i].scrollHeight;
+            if(totalScrollHeight >= yOffset) { // 이미지로 그려보면 이해가 쉬움
+                currentScene = i;
+                break;
+            }
+        }
+        document.body.setAttribute('id', `show-scene=${currentScene}`)
     }
 
     function scrollLoop() {
@@ -59,22 +71,22 @@
 
         if(yOffset > PrevScrollHeight + sceneInfo[currentScene].scrollHeight) {
             currentScene++;
+            document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
 
         if(yOffset < PrevScrollHeight) {
             if (currentScene === 0) return; // scene 0에서 바운싱 스크롤이 일어났을 때 콘솔에 -값을 찍히지 않게 방지
             currentScene--;
+            document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
-
-        console.log(currentScene);
     }
 
-    window.addEventListener('resize', setLayout) // 화면 크기가 바뀌었을때를 기준으로 setLayout을 정의하기
     window.addEventListener('scroll', () => {
-        yOffset = window.scrollY;  // window.pageYOffset은 deprecated 되었다. 
+        yOffset = window.scrollY;  // window.pageYOffset은 deprecated 되었다.
         scrollLoop()
     });
-
-    setLayout()
+    // window.addEventListener('DOMContentLoaded', setLayout)
+    window.addEventListener('load', setLayout)
+    window.addEventListener('resize', setLayout) // 화면 크기가 바뀌었을때를 기준으로 setLayout을 정의하기
 
 })();
