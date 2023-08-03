@@ -70,10 +70,23 @@
         document.body.setAttribute('id', `show-scene=${currentScene}`)
     }
 
+    function calcValues (values, currentYOffset) { // currentYOffset은 현재 씬에서 얼마나 스크롤 됐는지를 의미
+
+    }
+
     function playAnimation() {
+        const objs = sceneInfo[currentScene].objs;
+        const values = sceneInfo[currentScene].values
+        const currentYOffset = yOffset - PrevScrollHeight;
+
+        console.log( `현재 Scene은 ${currentScene} 이고, 현재 씬 안에서 ${currentYOffset} 움직였어요` )
+
         switch (currentScene) {
             case 0:
                 // console.log('0 play')
+                let messageA_opacity_0 = values.messageA_opacity[0]
+                let messageA_opacity_1 = values.messageA_opacity[1]
+                console.log( calcValues(values.messageA_opacity, currentYOffset))
                 break;
 
             case 1:
