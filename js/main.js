@@ -11,7 +11,14 @@
             heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 // 이 값이 작으면 한번 스크롤 할 때마다 휙휙 넘어가는 원리
             scrollHeight: 0,
             objs: {
-                container: document.querySelector('#scroll-section-0')
+                container: document.querySelector('#scroll-section-0'),
+                messageA: document.querySelector('#scroll-section-0 .main-message.a'),
+                messageB: document.querySelector('#scroll-section-0 .main-message.b'),
+                messageC: document.querySelector('#scroll-section-0 .main-message.c'),
+                messageD: document.querySelector('#scroll-section-0 .main-message.d')
+            },
+            values: {
+                messageA_opacity: [0, 1]
             }
         },
         {   
@@ -63,6 +70,26 @@
         document.body.setAttribute('id', `show-scene=${currentScene}`)
     }
 
+    function playAnimation() {
+        switch (currentScene) {
+            case 0:
+                // console.log('0 play')
+                break;
+
+            case 1:
+                // console.log('1play')
+                break;
+
+            case 2:
+                // console.log('2play')
+                break;
+
+            case 3:
+                // console.log('3play')
+                break;
+        }
+    }
+
     function scrollLoop() {
         PrevScrollHeight = 0; // PrevScrollHeight의 초기화가 함수 내에 있어야 맥북 기준 4 scene의 총합 11540이 찍히고 다음 scrollLoop() 이 실행될 때 다시 초기화 된다. (값이 누적되지 않는다.) 
         for (let i = 0; i < currentScene; i++) {
@@ -79,6 +106,8 @@
             currentScene--;
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
+
+        playAnimation();
     }
 
     window.addEventListener('scroll', () => {
