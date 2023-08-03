@@ -3,6 +3,7 @@
     let yOffset = 0; // window.pageYOffset 대신에 쓸 변수
     let PrevScrollHeight = 0; // 현재 스크롤 위치(yOffset) 보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
     let currentScene = 0; // 현재 활성화된 (눈 앞에 보고있는) 씬 (Scrollsection)
+    let enterNewScene = false; // 새로운 Scene이 시작된 순간 true
     // sceneInfo는 각 scene에 대한 정보를 담고 있다.
     const sceneInfo = [
         {
@@ -85,11 +86,14 @@
         const values = sceneInfo[currentScene].values
         const currentYOffset = yOffset - PrevScrollHeight;
 
+        console.log(currentScene)
+
         switch (currentScene) {
             case 0:
                 // console.log('0 play')
                 let messageA_opacity_in = calcValues(values.messageA_opacity, currentYOffset)
                 objs.messageA.style.opacity = messageA_opacity_in;
+                console.log(messageA_opacity_in)
                 break;
 
             case 1:
@@ -107,21 +111,26 @@
     }
 
     function scrollLoop() {
+        enterNewScene = false;
         PrevScrollHeight = 0; // PrevScrollHeight의 초기화가 함수 내에 있어야 맥북 기준 4 scene의 총합 11540이 찍히고 다음 scrollLoop() 이 실행될 때 다시 초기화 된다. (값이 누적되지 않는다.) 
         for (let i = 0; i < currentScene; i++) {
             PrevScrollHeight += sceneInfo[i].scrollHeight;
         }
 
         if(yOffset > PrevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+            enterNewScene = true;
             currentScene++;
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
 
         if(yOffset < PrevScrollHeight) {
+            enterNewScene = true;
             if (currentScene === 0) return; // scene 0에서 바운싱 스크롤이 일어났을 때 콘솔에 -값을 찍히지 않게 방지
             currentScene--;
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
+
+        if (enterNewScene) return;
 
         playAnimation();
     }
